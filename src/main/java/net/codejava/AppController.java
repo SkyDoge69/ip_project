@@ -8,12 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AppController {
 
 	@Autowired
 	private UserRepository userRepo;
+	private QuestionService service;
 	
 	@GetMapping("")
 	public String viewHomePage() {
@@ -45,4 +47,13 @@ public class AppController {
 		
 		return "users";
 	}
+
+	@RequestMapping("/questions")
+	public String listQuestions(Model model) {
+		List<Question> listQuestions = service.listAll();
+		model.addAttribute("listQuestions", listQuestions);
+		
+		return "questions";
+	}
+
 }
