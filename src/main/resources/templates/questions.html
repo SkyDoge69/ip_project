@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Questions</title>
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+	<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="contatiner text-center">
+        <h1>question List</h1>
+        <a href="/new">Create New question</a>
+        <br/><br/>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Questions ID</th>
+                    <th>Content</th>
+                    <th>Option 1</th>
+                    <th>Option 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="question : ${listQuestions}">
+                    <td th:text="${question.id}">Question ID</td>
+                    <td th:text="${question.content}">Content</td>
+                    <td th:text="${question.option1}">Option 1</td>
+                    <td th:text="${question.option2}">Option 2</td>
+                    <!-- <td>
+                        <a th:href="/@{'/edit/' + ${question.id}}">Edit</a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a th:href="/@{'/delete/' + ${question.id}}">Delete</a>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

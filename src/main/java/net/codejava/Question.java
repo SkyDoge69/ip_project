@@ -16,6 +16,9 @@ public class Question {
     private String content;
     private String option1;
     private String option2;
+
+    protected Question() {
+    }
     
     public Long getId() {
         return id;

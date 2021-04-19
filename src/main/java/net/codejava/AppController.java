@@ -7,14 +7,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AppController {
 
 	@Autowired
 	private UserRepository userRepo;
+	@Autowired
 	private QuestionService service;
 	
 	@GetMapping("")
@@ -29,6 +30,21 @@ public class AppController {
 		return "signup_form";
 	}
 	
+	@GetMapping("/new")
+	public String showQuestionForm(Model model) {
+		Question question = new Question();
+		model.addAttribute("question", question);
+
+		return "question_form";
+	}
+
+	@PostMapping(value = "/save")
+	public String saveQuestion(@ModelAttribute("question") Question question) {
+		service.save(question);
+		
+		return "redirect:/";
+	}
+
 	@PostMapping("/process_register")
 	public String processRegister(User user) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -48,7 +64,7 @@ public class AppController {
 		return "users";
 	}
 
-	@RequestMapping("/questions")
+	@GetMapping("/questions")
 	public String listQuestions(Model model) {
 		List<Question> listQuestions = service.listAll();
 		model.addAttribute("listQuestions", listQuestions);
