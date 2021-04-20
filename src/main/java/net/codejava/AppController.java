@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AppController {
@@ -40,6 +42,17 @@ public class AppController {
 
 	@PostMapping(value = "/save")
 	public String saveQuestion(@ModelAttribute("question") Question question) {
+		int zero = 0;
+		Long value = Long.valueOf(zero);
+		question.setVotes1(value);
+		question.setVotes2(value);
+		service.save(question);
+		
+		return "redirect:/";
+	}
+
+	@PostMapping(value = "/update")
+	public String updateQuestion(@ModelAttribute("question") Question question) {
 		service.save(question);
 		
 		return "redirect:/";
@@ -70,6 +83,16 @@ public class AppController {
 		model.addAttribute("listQuestions", listQuestions);
 		
 		return "questions";
+	}
+
+	@GetMapping("/answer/{id}")
+	public ModelAndView answerQuestion(@PathVariable(name = "id") Long id) {
+		ModelAndView mav = new ModelAndView("question_answer");
+
+		Question question = service.get(id);
+		mav.addObject("question", question);
+
+		return mav;
 	}
 
 }
